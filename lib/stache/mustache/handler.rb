@@ -14,6 +14,7 @@ module Stache
       def compile(template)
         #
         # get a custom Mustache, or the default Stache::Mustache::View
+        
         mustache_class = mustache_class_from_template(template)
 
         # Return a string that will be eval'd in the context of the ActionView, ugly, but it works.
@@ -57,11 +58,11 @@ module Stache
           const_name.constantize
         rescue NameError, LoadError => e
           # Only rescue NameError/LoadError concerning our mustache_class
-          if e.message.match(/#{const_name}$/)
+          #if e.message.match(/#{const_name}$/)
             Stache.default_view_class.constantize
-          else
-            raise e
-          end
+          #else
+          #  raise e
+          #end
         end
       end
 
