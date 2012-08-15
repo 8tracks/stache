@@ -26,12 +26,12 @@ module Stache
       @template_base_path = Pathname.new(path)
     end
 
-    def view_base_path
-      @view_base_path ||= ::Rails.root.join('app', 'views')
+    def default_view_class
+      @default_view_class ||= 'Stache::Mustache::View'
     end
 
-    def view_base_path= path
-      @view_base_path = Pathname.new(path)
+    def default_view_class= classname
+      @default_view_class = classname
     end
 
     def shared_path

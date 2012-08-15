@@ -58,7 +58,7 @@ module Stache
         rescue NameError, LoadError => e
           # Only rescue NameError/LoadError concerning our mustache_class
           if e.message.match(/#{const_name}$/)
-            Stache::Mustache::View
+            Stache.default_view_class.constantize
           else
             raise e
           end
