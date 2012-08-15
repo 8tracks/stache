@@ -11,7 +11,7 @@ module Stache
   #   use :mustache # or :handlebars
   # end
   module Config
-    attr_accessor :template_base_path, :shared_path
+    attr_accessor :template_base_path, :view_base_path, :shared_path, :template_extension
 
     def configure
       yield self
@@ -26,11 +26,33 @@ module Stache
       @template_base_path = Pathname.new(path)
     end
 
+    def view_base_path
+      @view_base_path ||= ::Rails.root.join('app', 'views')
+    end
+
+    def view_base_path= path
+      @view_base_path = Pathname.new(path)
+    end
+
     def shared_path
       @shared_path ||= ::Rails.root.join('app', 'templates', 'shared')
     end
 
+    def template_extension
+      case @use
+      when :handlebars
+        @template_extension ||= :hbs
+      else #:mustache
+        @template_extension ||= :mustache
+      end
+    end
+
+    def template_extension= extension
+      @template_extension = extension
+    end
+
     def use template_engine
+      @use = template_engine
       require "stache/#{template_engine}"
     end
   end

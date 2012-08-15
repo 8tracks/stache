@@ -24,7 +24,7 @@ module Stache
           if ActionPack::VERSION::MAJOR == 3 && ActionPack::VERSION::MINOR < 2
             lookup_context.find(name, [], partial)
           else # Rails 3.2 and higher
-            lookup_context.find(name, [], partial, [], { formats: [:html], handlers: [:mustache] })
+            lookup_context.find(name, [], partial, [], { formats: [:html], handlers: [Stache.template_extension] })
           end
         end
 
