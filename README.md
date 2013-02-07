@@ -4,6 +4,12 @@ A Rails 3.x compatible Mustache/Handlebars Template Handler, with support for pa
 
 [![Build Status](https://secure.travis-ci.org/agoragames/stache.png)](http://travis-ci.org/agoragames/stache)
 
+## 1.0.0
+
+Major overhaul to the mustache side of things. Backwards compatibility *should* be intact. If not, file a bug and it will get taken care of.
+
+Handlebars can also handle application layouts, and you can use subclasses of Stache::Handlebars::View to define view-specific helpers now.
+
 ## Notice Of Breaking Changes
 
 Stache 0.9.x adds handlebars support. In the process, the public API has changed *ever-so-slightly*. Specifically, you'll need to require the mustache or handlebars gems on your own, **and** you'll need to tell Stache which one (or both!) you want to use. Add `config.use :mustache` to your initializer.
@@ -19,6 +25,10 @@ Install the gem. If you want to override any of the configuration options (see `
 Stache.configure do |c|
   c.template_base_path = "..."  # this is probably the one you'll want to change
                                 # it defaults to app/templates
+
+  c.wrapper_module_name = "..." # this lets you indicate the name of a module that
+                                # namespaces all your view classes, useful, if you
+                                # have a naming conflict, such as with a mailer
 
   # N.B. YOU MUST TELL STACHE WHICH TO USE:
   c.use :mustache
@@ -68,6 +78,10 @@ end
 <p>Here's a helper_method call: {{ my_view_helper_method }}</p>
 ```
 
+With the wrapper_module_name configuration set to "Wrapper":
+
+With a template `app/templates/profiles/index`, Stache will look for a view named `Wrapper::Profiles::Index`, and, if not found, will just use the base `Stache::Mustache::View`.
+
 ### Handlebars?
 
 Handlebars will have full access to your rails view helpers.
@@ -107,6 +121,10 @@ So: thanks a ton to those guys.
 * [ajacksified](https://github.com/ajacksified) cleaned up template extension handling.
 * [ayamomiji](https://github.com/ayamomiji) extended the `#template_include_tag` to pass through the full range of `#content_tag` options.
 * [awestendorf](https://github.com/awestendorf) requested that `View#partial` not be so particular about leading underscores. Though I didn't use his code, his prompt lead me to investigate how to properly use Rails' internal template lookup code.
+* [zombor](https://github.com/zombor) contributed an overhaul to the Mustache renderer that puts Mustache classes themselves in control of the render chain, not Rails.
+* [kategengler](https://github.com/kategengler) contributed a patch to allow folks to specify a namespace for their view objects.
+
+Thanks a ton to all of the contributors as well. This would never have grown beyond a mediocre tool that rendered partials without their help!
 
 ## Note on Patches/Pull Requests
 
@@ -120,4 +138,4 @@ So: thanks a ton to those guys.
 
 ## Copyright
 
-Copyright (c) 2011 Matt Wilson / Agora Games. See LICENSE for details.
+Copyright (c) 2011-2013 Matt Wilson / Agora Games. See LICENSE for details.
