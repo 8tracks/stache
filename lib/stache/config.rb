@@ -11,7 +11,7 @@ module Stache
   #   use :mustache # or :handlebars
   # end
   module Config
-    attr_accessor :template_base_path, :shared_path, :wrapper_module_name, :template_extension, :view_base_path, 
+    attr_accessor :template_base_path, :shared_path, :wrapper_module_name, :template_extension, :view_base_path
 
     def configure
       yield self
